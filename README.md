@@ -29,22 +29,22 @@ The project can be classified into 5 different areas:
 ### Data Split
 
 **Attributes:**
-- b_cancer.data - Feature data from the dataset
-- b_cancer.target - Labels from dataset
+- dia.data - Feature data from the dataset
+- dia.target - Labels from dataset
 - test_size=0.2 - 20% for test set
-- random_state=32 - Seed for reproducibility
+- random_state= 42 - Seed for reproducibility
   
 **Methods:**
-- datasets.load_breast_cancer() - Loads the breast cancer dataset
+- dia = datasets.load_diabetes() - Loads the diabetes dataset
 - model_selection.train_test_split() - Splits data into train/test sets
 
 ---
 ### Setting Up Models
 
 **Attributes:**
-- LogisticRegression(random_state=43, solver=‘liblinear’)
-- KNeighborsClassifier(n_neighbors=5)
-- RandomForestClassifier(n_estimators=200, random_state=28)
+- LinearRegression()
+- RandomForestRegressor(n_estimators=75, random_state=42)
+- SVR(kernel='rbf', C=100, gamma=0.1, epsilon=.1)
 
 **Methods:**
 - .fit(x_train, y_train) - Trains each model on training data
@@ -52,38 +52,30 @@ The project can be classified into 5 different areas:
 ---
 ### Predicting Scores
 **Attributes:**
-- reg_test_pred - Array of predictions from the Logistic Regression model
-- knn_test_pred - Array of predictions from the K-Nearest Neighbors model
-- rf_test_pred - Array of predictions from Random Forest model
-  
+- y_pred_linreg - Array of predictions from the Logistic Regression model
+- y_pred_forest - Array of predictions from the K-Nearest Neighbors model
+- y_pred_svr - Array of predictions from Random Forest model
+-   
 **Methods:**
--.predict(x_test) - Generates predictions on test data
+-.predict(x_test) - Generates predictions on each test datas model
 
 ---
 ### Results
 
-**Attributes:**
-- log_reg_accuracy, log_reg_precision, log_reg_recall
-- knn_accuracy, knn_precision, knn_recall
-- rf_accuracy, rf_precision, rf_recall
-- Calculate F1 scores for each model after initial metrics.
-  
-**Methods:**
-- accuracy_score(y_test, predictions) - Calculates accuracy
-- precision_score(y_test, predictions) - Calculates precision
-- recall_score(y_test, predictions) - Calculates recall
-- Printed calculated scores up to here.
-- f1_score(y_test, predictions) - Calculates F1 score
-- Then printed f1_scores after being calculated.
+**Attributes:** / **Methods:**
+- explained_variance_score(y_test, y_pred_(linreg, forest, or svr)), Calculated the Explained Variance Score
+- mean_squared_error(y_test, y_pred_(linreg, forest, or svr)), Calculated the Mean Squared Error Score.
+- r2_score(y_test, y_pred_(linreg, forest, or svr)), Calculated the R^2 Score.
 
 ---
 ## Limitations
-- I limited myself to what I learn in a class related to the project (e.g., not performing any scaled features or cross-validation).
-- In addition to the limit of class-related, I also limited myself from generating models since such an area has not been discussed (Once more, such a thing is possible now, however, these limits are to test what the library can do).
-- Focused solely on using sklearn to establish a better understanding of its usage. 
+- I will slightly limited myself to what I learn in a class related to the project, but will attempt a few things within Scikit-learn.
+- In addition to the small limits of class-related, I also limited myself from generating models since such an area has not been discussed (Once more, such a thing is possible now, however, these limits are to test what the library can do).
+- Focused solely on using sklearn to establish a better understanding of its usage, and for the current project using regression models. 
 
 ## Post Implementation/Thoughts
 These are some of the implementation/Thoughts post methods to highlight the areas that I improved and/or discussed upon the initial methods:
 
-- Messed with the n-neigbors = 5 - After reviewing other areas like 3, or 13, they did little to improve more than 5, if I could uses something like StandardScaler , and gridsearch, then those would greatly help determine the best possible k value.
-- RandomForestClassifier(n_estimators=200) - Change from 100 to 200 and saw improvements to the accuracy, precision, and F1 scores.
+- I decided to try using k-fold cross-validation on the 3 models to see if I could improve how each results could change, with the help of numpy.
+- Over all after manipulating the number of forest the random forest model did closes the gap and came extremely closes to surpassing the linear model but fell short by a little. Perhaps I could expand upon more ways to affect trees to finally surpass linear.
+- Lastly, the k-fold only improved the SVR (Support Vector Regressor) (more details regurding why within notebook), however once again only closed the gap towards linear regression slightly. Review/see if Ridge and Lasso could help to improve the models.
